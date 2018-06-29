@@ -1,11 +1,16 @@
 package model;
 
 import java.io.Serializable;
+import java.util.Map;
 
 public class Pojo implements Serializable{
     public String s1;
     public String s2;
     public String s3;
+
+    public Integer [] ints;
+    public Double [] doubles;
+    public Map<String, Integer> map;
 
     public int i1;
     public int i2;
