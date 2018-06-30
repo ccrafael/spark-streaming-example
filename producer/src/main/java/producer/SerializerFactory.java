@@ -17,25 +17,27 @@ public class SerializerFactory {
 
     public static final Serializer JAVA = new Serializer() {
         ObjectOutputStream envelopSerializer;
-        ObjectOutputStream serializer;
-        ByteArrayOutputStream buffer;
+
 
         public void init(OutputStream outputstream) throws IOException {
             envelopSerializer = new ObjectOutputStream(outputstream);
-            serializer = new ObjectOutputStream(buffer);
         }
 
         public void serialize(Pojo pojo) throws IOException {
+            ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+            ObjectOutputStream serializer = new ObjectOutputStream(buffer);
+
             serializer.writeObject(pojo);
             serializer.flush();
+            serializer.reset();
 
             Message message = new Message(buffer.toByteArray());
+
             envelopSerializer.writeObject(message);
             envelopSerializer.flush();
 
             // reset
             envelopSerializer.reset();
-            serializer.reset();
             buffer.reset();
         }
     };

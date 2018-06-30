@@ -89,12 +89,12 @@ object Main {
     val sqlContext = new org.apache.spark.sql.SQLContext(ssc.sparkContext)
 
     // TODO change first deserialation for a byte read.
-    val lines = ssc.socketStream("localhost", 8080, protostuff_unpack, StorageLevel.MEMORY_ONLY);
+    val lines = ssc.socketStream("localhost", 8080, java_unpack, StorageLevel.MEMORY_ONLY);
 
     //lines.map( m => protostuff_deserialize(m) ).foreachRDD(rdd => rdd.foreach(p => println(p)))
 
     // this way the deserialization has concurrence
-    lines.map( m => protostuff_deserialize(m) ).map(p => p.map.get("check")).reduce((a,b) => a + b).print()
+    lines.map( m => java_deserialize(m) ).map(p => p.map.get("check")).reduce((a,b) => a + b).print()
 
     ssc.start() // Start the computation
     ssc.awaitTermination() // Wait for the computation to terminate

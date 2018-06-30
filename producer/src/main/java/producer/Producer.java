@@ -154,7 +154,7 @@ public class Producer implements Closeable {
     public static void main(String[] args) {
 
         try (Producer p = new Producer("localhost", 8080)) {
-            p.setSerializer(SerializerFactory.PROTOSTUFF);
+            p.setSerializer(SerializerFactory.JAVA);
             p.produce();
         } catch (IOException e) {
             e.printStackTrace();
